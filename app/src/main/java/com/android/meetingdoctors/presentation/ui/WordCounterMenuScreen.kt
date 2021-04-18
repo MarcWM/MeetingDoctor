@@ -5,7 +5,10 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import com.android.meetingdoctors.data.model.Word
+import com.android.meetingdoctors.presentation.components.MenuCardComponent
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @Composable
 fun WordMenu(
     loading: Boolean = false,
@@ -24,7 +27,9 @@ fun WordMenu(
                 items = listOfWords,
             ) { index, word ->
 
-                Text(text = word.name + word.totalAppearances)
+                MenuCardComponent(word = word) {
+
+                }
             }
         }
     }
