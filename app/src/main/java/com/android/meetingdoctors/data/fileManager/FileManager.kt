@@ -11,5 +11,5 @@ interface FileManager {
     /**
      * Read all words that appear in file, returning a list of [Word] type
      */
-    fun readAllFileWords(context: Context, fileName: String): List<Word>
+    fun readAllFileWords(fileName: String): List<Word>
 }

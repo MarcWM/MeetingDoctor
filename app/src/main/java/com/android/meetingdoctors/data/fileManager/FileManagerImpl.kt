@@ -3,32 +3,35 @@ package com.android.meetingdoctors.data.fileManager
 import android.content.Context
 import com.android.meetingdoctors.data.model.TotalAppearancesPerFile
 import com.android.meetingdoctors.data.model.Word
-import com.android.meetingdoctors.data.fileManager.FileManager
 
 /**
  * File Manager Implementation
  */
-class FileManagerImpl: FileManager {
+class FileManagerImpl
 
-    override fun readAllFileWords(context: Context, fileName: String): List<Word> {
-        return readAndCollectWordsFromFile(context, fileName)
+constructor(val context: Context): FileManager {
+
+    @ExperimentalStdlibApi
+    override fun readAllFileWords(fileName: String): List<Word> {
+        return readAndCollectWordsFromFile(fileName)
     }
 
-    private fun readAndCollectWordsFromFile(context: Context, fileName: String): List<Word> {
+    @ExperimentalStdlibApi
+    private fun readAndCollectWordsFromFile(fileName: String): List<Word> {
 
         val listOfWords = arrayListOf<Word>()
 
         val linesList = context.assets.open(fileName).bufferedReader().readLines()
 
-
         linesList.forEach { line ->
             stringToWords(line).forEach { word ->
 
-                // Look if word is collectable
-
+                // Delete special chars
+                val regex = "[^A-Za-z0-9]".toRegex()
+                val wordWithoutSpecialChars = word.replace(regex = regex, "")
 
                 // Search if the word is already in the list
-                val wordIndex = searchIfWordIsAlreadyOnList(word, listOfWords)
+                val wordIndex = searchIfWordIsAlreadyOnList(wordWithoutSpecialChars, listOfWords)
 
                 if (wordIndex != null) {
 
@@ -56,19 +59,23 @@ class FileManagerImpl: FileManager {
 
                 } else {
 
-                    // Add new Word to list
-                    listOfWords.add(
-                        Word(
-                            name = word,
-                            totalAppearances = 1,
-                            totalAppearancesPerFile =  arrayListOf(
-                                TotalAppearancesPerFile(
-                                    fileName = fileName,
-                                    totalAppearances = 1
+                    // Look if word is a number
+                    if(wordWithoutSpecialChars.matches(Regex(".*[A-z].*"))) {
+
+                        // Add new Word to list
+                        listOfWords.add(
+                            Word(
+                                name = wordWithoutSpecialChars,
+                                totalAppearances = 1,
+                                totalAppearancesPerFile = arrayListOf(
+                                    TotalAppearancesPerFile(
+                                        fileName = fileName,
+                                        totalAppearances = 1
+                                    )
                                 )
                             )
                         )
-                    )
+                    }
                 }
             }
         }
@@ -78,7 +85,7 @@ class FileManagerImpl: FileManager {
 
     private fun searchIfWordIsAlreadyOnList(wordToAdd: String, listOfWords: List<Word>): Int? {
         for ((index,word) in listOfWords.withIndex()) {
-            if (word.name == wordToAdd) return index
+            if (word.name == wordToAdd || wordToAdd.contains(word.name, ignoreCase = true)) return index
         }
         return null
     }
