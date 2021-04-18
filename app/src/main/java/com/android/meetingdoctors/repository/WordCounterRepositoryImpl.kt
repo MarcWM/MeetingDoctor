@@ -2,14 +2,17 @@ package com.android.meetingdoctors.repository
 
 import com.android.meetingdoctors.data.fileManager.FileManager
 import com.android.meetingdoctors.data.mapper.WordFileMapper
+import com.android.meetingdoctors.data.model.Word
 
 class WordCounterRepositoryImpl
 
 constructor(
-    fileManager: FileManager,
-    wordFileMapper: WordFileMapper
+    private val fileManager: FileManager,
+    private val wordFileMapper: WordFileMapper
 ) : WordCounterRepository {
 
-    // TODO
+    override fun getListOfWords(): List<Word> {
+        return fileManager.readAllFileWords("alice29.txt")
+    }
 
 }
