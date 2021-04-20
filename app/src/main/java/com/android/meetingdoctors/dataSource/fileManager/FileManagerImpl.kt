@@ -1,8 +1,7 @@
-package com.android.meetingdoctors.data.fileManager
+package com.android.meetingdoctors.dataSource.fileManager
 
 import android.content.Context
-import com.android.meetingdoctors.data.model.TotalAppearancesPerFile
-import com.android.meetingdoctors.data.model.Word
+import com.android.meetingdoctors.dataSource.model.Word
 
 /**
  * File Manager Implementation
@@ -39,21 +38,12 @@ constructor(val context: Context): FileManager {
                     listOfWords[wordIndex].totalAppearances += 1
 
                     // Increase word appearances for the given file
-                    for (totalAppearancesPerFile in listOfWords[wordIndex].totalAppearancesPerFile) {
+                    for (fileWhereWordAppear in listOfWords[wordIndex].filesWhereWordAppear) {
 
                         // If the file already exists, increase appearances. If not, add new
                         // file to th list
-                        if (totalAppearancesPerFile.fileName == fileName) {
-                            totalAppearancesPerFile.totalAppearances += 1
-                        } else {
-
-                            // Initialize new File appearances
-                            listOfWords[wordIndex].totalAppearancesPerFile.add(
-                                TotalAppearancesPerFile(
-                                    fileName = fileName,
-                                    totalAppearances = 1
-                                )
-                            )
+                        if (fileWhereWordAppear != fileName) {
+                            listOfWords[wordIndex].filesWhereWordAppear.add(fileName)
                         }
                     }
 
@@ -67,12 +57,7 @@ constructor(val context: Context): FileManager {
                             Word(
                                 name = wordWithoutSpecialChars,
                                 totalAppearances = 1,
-                                totalAppearancesPerFile = arrayListOf(
-                                    TotalAppearancesPerFile(
-                                        fileName = fileName,
-                                        totalAppearances = 1
-                                    )
-                                )
+                                filesWhereWordAppear = arrayListOf(fileName)
                             )
                         )
                     }

@@ -1,7 +1,7 @@
-package com.android.meetingdoctors.data.fileManager
+package com.android.meetingdoctors.dataSource.fileManager
 
-import android.content.Context
-import com.android.meetingdoctors.data.model.Word
+import com.android.meetingdoctors.dataSource.model.Word
+import com.android.meetingdoctors.dataSource.model.WordEntity
 
 /**
  * File Manager Interface
