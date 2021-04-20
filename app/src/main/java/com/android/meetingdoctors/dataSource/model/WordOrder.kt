@@ -1,4 +1,4 @@
-package com.android.meetingdoctors.data.model
+package com.android.meetingdoctors.dataSource.model
 
 enum class WordOrder(val value: String){
     POSITION("Position"),

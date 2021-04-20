@@ -19,14 +19,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.android.meetingdoctors.data.model.WordOrder
+import com.android.meetingdoctors.dataSource.model.WordOrder
 
 @ExperimentalComposeUiApi
 @Composable
 fun SearchAppBarComponent(
     query: String,
     onQueryChanged: (String) -> Unit,
-    onExecuteSearch: () -> Unit,
+    onExecuteSearch: (() -> Unit)? = null,
     orders: List<WordOrder>,
     selectedChip: WordOrder?,
     onSelectedChipChanged: (String) -> Unit
@@ -60,7 +60,7 @@ fun SearchAppBarComponent(
                     ),
                     keyboardActions = KeyboardActions(
                         onDone = {
-                            onExecuteSearch()
+                            //onExecuteSearch()
                             keyboardController?.hide()
                         },
                     ),
@@ -94,7 +94,7 @@ fun SearchAppBarComponent(
                             onSelectedChipChanged(it)
                         },
                         onExecuteSearch = {
-                            onExecuteSearch()
+                            //onExecuteSearch()
                         },
                     )
 

@@ -9,7 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.android.meetingdoctors.data.model.Word
+import com.android.meetingdoctors.dataSource.model.Word
+import com.android.meetingdoctors.dataSource.model.WordEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi

@@ -10,7 +10,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.android.meetingdoctors.data.model.getAllWordOrders
+import com.android.meetingdoctors.dataSource.model.getAllWordOrders
 import com.android.meetingdoctors.presentation.BaseApplication
 import com.android.meetingdoctors.presentation.components.SearchAppBarComponent
 import com.android.meetingdoctors.presentation.theme.AppTheme
@@ -54,9 +54,6 @@ class WordCounterFragment: Fragment() {
                             SearchAppBarComponent(
                                 query = query,
                                 onQueryChanged = viewModel::onQueryChanged,
-                                onExecuteSearch = {
-                                    // TODO Execute Search
-                                },
                                 orders = getAllWordOrders(),
                                 selectedChip = selectedChip,
                                 onSelectedChipChanged = viewModel::onSelectedChipChanged
@@ -64,10 +61,13 @@ class WordCounterFragment: Fragment() {
                         }
                     ) {
                         WordMenu(
-                            listOfWords = words
-                        ) {
-                            // TODO Navigate to detail
-                        }
+                            listOfWords = words,
+                            loading = loading,
+                            onSelectFileSelected = viewModel::setNewFile,
+                            onNavigateToRecipeDetailScreen = {
+                                // TODO Navigate to Detail
+                            }
+                        )
                     }
                 }
 

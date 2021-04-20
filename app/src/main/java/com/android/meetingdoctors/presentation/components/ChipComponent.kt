@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.android.meetingdoctors.data.model.WordOrder
+import com.android.meetingdoctors.dataSource.model.WordOrder
 
 @Composable
 fun ChipComponent(
