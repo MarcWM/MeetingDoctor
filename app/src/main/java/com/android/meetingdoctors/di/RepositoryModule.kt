@@ -1,9 +1,9 @@
 package com.android.meetingdoctors.di
 
-import com.android.meetingdoctors.data.fileManager.FileManager
+import com.android.meetingdoctors.dataSource.cache.CacheDataSource
+import com.android.meetingdoctors.dataSource.fileManager.FileManager
 import com.android.meetingdoctors.repository.WordCounterRepository
 import com.android.meetingdoctors.repository.WordCounterRepositoryImpl
-import com.android.meetingdoctors.data.mapper.WordFileMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,11 +18,11 @@ object RepositoryModule {
     @Provides
     fun providesWordRepository(
         fileManager: FileManager,
-        wordFileMapper: WordFileMapper
+        wordDataSource: CacheDataSource
     ): WordCounterRepository {
         return WordCounterRepositoryImpl(
             fileManager = fileManager,
-            wordFileMapper = wordFileMapper
+            wordDataSource = wordDataSource
         )
     }
 }
