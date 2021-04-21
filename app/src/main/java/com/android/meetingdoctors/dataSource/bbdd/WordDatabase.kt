@@ -6,7 +6,7 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.android.meetingdoctors.dataSource.model.WordEntity
 
-@Database(entities = [WordEntity::class], version = 1)
+@Database(entities = [WordEntity::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class WordDatabase: RoomDatabase() {
 

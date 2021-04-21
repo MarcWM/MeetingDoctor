@@ -12,12 +12,15 @@ interface WordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(blogEntity: WordEntity): Long
 
+    @Query("SELECT * FROM words WHERE name LIKE :query")
+    suspend fun get(query: String): List<WordEntity>
+
+    @Query("SELECT * FROM words LIMIT :size")
+    suspend fun get(size: Int): List<WordEntity>
+
     @Query("SELECT * FROM words")
     suspend fun get(): List<WordEntity>
 
-    @Query("SELECT filesWhereWordAppear FROM words")
+    @Query("SELECT DISTINCT filesWhereWordAppear FROM words")
     suspend fun getAllFilesAlreadySaved(): List<String>
-
-    @Query("SELECT * FROM words WHERE name LIKE :query")
-    suspend fun getWordsForCertainQuery(query: String): List<WordEntity>
 }
