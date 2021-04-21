@@ -11,14 +11,15 @@ class FileManagerImpl
 constructor(val context: Context): FileManager {
 
     @ExperimentalStdlibApi
-    override fun readAllFileWords(fileName: String): List<Word> {
-        return readAndCollectWordsFromFile(fileName)
+    override fun readAllFileWords(fileName: String, wordListCached: List<Word>?): List<Word> {
+        return readAndCollectWordsFromFile(fileName, wordListCached)
     }
 
     @ExperimentalStdlibApi
-    private fun readAndCollectWordsFromFile(fileName: String): List<Word> {
+    private fun readAndCollectWordsFromFile(fileName: String, wordListCached: List<Word>?): List<Word> {
 
         val listOfWords = arrayListOf<Word>()
+        if (wordListCached != null) listOfWords.addAll(wordListCached)
 
         val linesList = context.assets.open(fileName).bufferedReader().readLines()
 
@@ -36,16 +37,14 @@ constructor(val context: Context): FileManager {
 
                     // Increase total word appearances
                     listOfWords[wordIndex].totalAppearances += 1
+                    var fileAlreadySaved = false
 
-                    // Increase word appearances for the given file
                     for (fileWhereWordAppear in listOfWords[wordIndex].filesWhereWordAppear) {
 
-                        // If the file already exists, increase appearances. If not, add new
-                        // file to th list
-                        if (fileWhereWordAppear != fileName) {
-                            listOfWords[wordIndex].filesWhereWordAppear.add(fileName)
-                        }
+                        if (fileWhereWordAppear == fileName) fileAlreadySaved = true
                     }
+
+                    if (!fileAlreadySaved) listOfWords[wordIndex].filesWhereWordAppear.add(fileName)
 
                 } else {
 
@@ -68,13 +67,23 @@ constructor(val context: Context): FileManager {
         return listOfWords
     }
 
+    /**
+     * Search if a word is already saved
+     * @param wordToAdd word to add
+     * @param listOfWords list of words already saved
+     */
     private fun searchIfWordIsAlreadyOnList(wordToAdd: String, listOfWords: List<Word>): Int? {
         for ((index,word) in listOfWords.withIndex()) {
-            if (word.name == wordToAdd || wordToAdd.contains(word.name, ignoreCase = true)) return index
+            if (word.name == wordToAdd || wordToAdd.contains(word.name, ignoreCase = true)) {
+                return index
+            }
         }
         return null
     }
 
+    /**
+     * Convert string to a list of words
+     */
     private fun stringToWords(s : String) = s.trim().splitToSequence(' ')
         .filter { it.isNotEmpty() }
         .toList()
