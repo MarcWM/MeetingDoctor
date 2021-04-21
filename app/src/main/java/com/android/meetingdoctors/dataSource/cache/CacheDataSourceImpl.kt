@@ -20,12 +20,16 @@ constructor(
         return wordDao.getAllFilesAlreadySaved()
     }
 
-    override suspend fun getWordList(): List<Word> {
+    override suspend fun getAllWordList(): List<Word> {
         return cacheMapper.mapFromEntityList(wordDao.get())
     }
 
+    override suspend fun getWordList(size: Int): List<Word> {
+        return cacheMapper.mapFromEntityList(wordDao.get(size))
+    }
+
     override suspend fun getWordsForCertainQuery(query: String): List<Word> {
-        return cacheMapper.mapFromEntityList(wordDao.getWordsForCertainQuery(query))
+        return cacheMapper.mapFromEntityList(wordDao.get(query))
     }
 
 }

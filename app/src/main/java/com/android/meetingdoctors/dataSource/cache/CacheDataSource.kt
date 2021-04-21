@@ -1,7 +1,6 @@
 package com.android.meetingdoctors.dataSource.cache
 
 import com.android.meetingdoctors.dataSource.model.Word
-import com.android.meetingdoctors.dataSource.model.WordEntity
 
 interface CacheDataSource {
 
@@ -9,7 +8,9 @@ interface CacheDataSource {
 
     suspend fun getFilesAlreadySaved(): List<String>
 
-    suspend fun getWordList(): List<Word>
+    suspend fun getWordList(size: Int): List<Word>
+
+    suspend fun getAllWordList(): List<Word>
 
     suspend fun getWordsForCertainQuery(query: String): List<Word>
 }
