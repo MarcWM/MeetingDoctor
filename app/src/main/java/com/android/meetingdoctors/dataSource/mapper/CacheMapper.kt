@@ -29,7 +29,4 @@ class CacheMapper
         return entities.map { mapFromEntity(it) }
     }
 
-    fun mapToEntityList(words: List<Word>): List<WordEntity> {
-        return words.map { mapToEntity(it) }
-    }
 }
