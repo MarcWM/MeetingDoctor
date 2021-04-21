@@ -16,8 +16,7 @@ import com.android.meetingdoctors.dataSource.model.WordOrder
 fun ChipComponent(
     order: WordOrder,
     isSelected: Boolean,
-    onSelectedOrderChanged: (String) -> Unit,
-    onExecuteSearch: () -> Unit
+    onSelectedOrderChanged: (String) -> Unit
 ) {
     Surface(
         modifier = Modifier.padding(end = 8.dp),
@@ -30,7 +29,6 @@ fun ChipComponent(
                 value = isSelected,
                 onValueChange = {
                     onSelectedOrderChanged(order.value)
-                    onExecuteSearch()
                 }
             )
         ) {

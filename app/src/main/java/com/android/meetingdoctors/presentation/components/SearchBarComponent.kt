@@ -26,7 +26,6 @@ import com.android.meetingdoctors.dataSource.model.WordOrder
 fun SearchAppBarComponent(
     query: String,
     onQueryChanged: (String) -> Unit,
-    onExecuteSearch: (() -> Unit)? = null,
     orders: List<WordOrder>,
     selectedChip: WordOrder?,
     onSelectedChipChanged: (String) -> Unit
@@ -60,7 +59,6 @@ fun SearchAppBarComponent(
                     ),
                     keyboardActions = KeyboardActions(
                         onDone = {
-                            //onExecuteSearch()
                             keyboardController?.hide()
                         },
                     ),
@@ -92,10 +90,7 @@ fun SearchAppBarComponent(
                         isSelected = selectedChip == order,
                         onSelectedOrderChanged = {
                             onSelectedChipChanged(it)
-                        },
-                        onExecuteSearch = {
-                            //onExecuteSearch()
-                        },
+                        }
                     )
 
                 }

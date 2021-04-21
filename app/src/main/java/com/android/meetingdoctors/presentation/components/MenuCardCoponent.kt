@@ -16,8 +16,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Composable
 fun MenuCardComponent(
-    word: Word,
-    onClick: () -> Unit,
+    word: Word
 ) {
     Card(
         shape = MaterialTheme.shapes.small,
@@ -29,7 +28,7 @@ fun MenuCardComponent(
                 end = 6.dp
             )
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .clickable(onClick = { /* Implement if necessary */ }),
         elevation = 8.dp,
     ) {
 
@@ -57,6 +56,25 @@ fun MenuCardComponent(
                     text = word.totalAppearances.toString(),
                     style = MaterialTheme.typography.h5
                 )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp, bottom = 12.dp, start = 8.dp, end = 8.dp)
+            ) {
+
+                for (files in word.filesWhereWordAppear) {
+                    Text(
+                        modifier = Modifier
+                            .wrapContentWidth(Alignment.Start),
+                        text = files,
+                        style = MaterialTheme.typography.h6
+                    )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
+
             }
 
         }
