@@ -1,14 +1,10 @@
 package com.android.meetingdoctors.presentation.theme
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 private val LightThemeColors = lightColors(
@@ -53,12 +49,6 @@ fun AppTheme(
         typography = QuickSandTypography,
         shapes = AppShapes,
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = if(!darkTheme) Grey1 else Color.Black)
-        ) {
-            content()
-        }
+        content()
     }
 }
