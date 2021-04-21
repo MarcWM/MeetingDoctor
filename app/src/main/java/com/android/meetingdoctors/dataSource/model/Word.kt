@@ -1,8 +1,13 @@
 package com.android.meetingdoctors.dataSource.model
 
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
-
+/**
+ * Word data class
+ *
+ * @param id: Identifier
+ * @param name: Word saved
+ * @param totalAppearances: RTimes word appears
+ * @param filesWhereWordAppear: files where word appear
+ */
 data class Word(
     val id: Int? = null,
     val name: String,

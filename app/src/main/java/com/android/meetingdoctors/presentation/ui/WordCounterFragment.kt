@@ -47,6 +47,8 @@ class WordCounterFragment: Fragment() {
 
                 val loading = viewModel.loading.value
 
+                val uploadFileButtonAvailable = viewModel.uploadFileButtonAvailable.value
+
                 AppTheme {
 
                     Scaffold(
@@ -63,10 +65,9 @@ class WordCounterFragment: Fragment() {
                         WordMenu(
                             listOfWords = words,
                             loading = loading,
+                            uploadFileButtonAvailable = uploadFileButtonAvailable,
                             onSelectFileSelected = viewModel::setNewFile,
-                            onNavigateToRecipeDetailScreen = {
-                                // TODO Navigate to Detail
-                            }
+                            onTriggerNextPage = viewModel::getWordsList
                         )
                     }
                 }

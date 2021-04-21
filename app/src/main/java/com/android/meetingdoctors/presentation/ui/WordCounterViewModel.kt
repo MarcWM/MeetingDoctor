@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.meetingdoctors.dataSource.model.Word
-import com.android.meetingdoctors.dataSource.model.WordEntity
 import com.android.meetingdoctors.dataSource.model.WordOrder
 import com.android.meetingdoctors.dataSource.model.WordOrder.*
 import com.android.meetingdoctors.dataSource.model.getWordOrder
@@ -15,6 +14,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val PAGE_SIZE = 30
 
 @HiltViewModel
 class WordCounterViewModel
@@ -26,11 +27,15 @@ constructor(
     private var _words: List<Word> = listOf()
     val words: MutableState<List<Word>> = mutableStateOf(ArrayList())
 
+    var uploadFileButtonAvailable: MutableState<Boolean> = mutableStateOf(true)
+
     val query = mutableStateOf("")
 
     val selectedChip: MutableState<WordOrder?> = mutableStateOf(null)
 
     val loading = mutableStateOf(false)
+
+    private val page = mutableStateOf(0)
 
     init {
 
@@ -41,8 +46,12 @@ constructor(
         getWordsList()
     }
 
+    /**
+     * Set new file to save words
+     */
     fun setNewFile() {
         viewModelScope.launch {
+
             repository.insertWordsFromNewFile("alice29.txt").collect {
                 when(it) {
                     is DataState.Error -> {
@@ -56,12 +65,17 @@ constructor(
                     }
                 }
             }
+
         }
     }
 
-    private fun getWordsList() {
+    /**
+     * Get words list with a limit
+     */
+    fun getWordsList() {
         viewModelScope.launch {
-            repository.getListOfWords().collect {
+            page.value += 1
+            repository.getListOfWords(size = page.value * PAGE_SIZE).collect {
                 when(it) {
                     is DataState.Error -> {
                         //TODO Snackybar to show error
@@ -75,12 +89,19 @@ constructor(
 
                         // Select order to show the list
                         selectedChip.value = POSITION
+
+                        // Don't show button
+                        if (it.data.isNotEmpty()) uploadFileButtonAvailable.value = false
                     }
                 }
             }
         }
     }
 
+    /**
+     * New search when a query is introduced
+     * @param query: String to search
+     */
     private fun newSearch(query: String) {
 
         loading.value = true
